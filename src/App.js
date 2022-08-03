@@ -23,7 +23,7 @@ class App extends react.Component {
     event.preventDefault();
     await this.setState({locationName:event.target.Cityname.value});
     let url = `https://eu1.locationiq.com/v1/search?key=${process.env.REACT_APP_KEY}&q=${this.state.locationName}&format=json`;
-    let url2 = `${process.env.REACT_APP_SREVER_LINK_LOC}/weather?searchQuery=${this.state.locationName}`;
+    let url2 = `${process.env.REACT_APP_SREVER_LINK_HER}/weather?searchQuery=${this.state.locationName}`;
     let response =await axios.get(url);
     let response2 =await axios.get(url2);
     await this.setState({allInfo:response.data[0], showData : true ,cityData:response2.data} );

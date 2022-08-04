@@ -2,10 +2,37 @@
   text-align: center;
 }
 
+.weather {
+  background-color: rgb(160,200,240);
+  width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+  color: rgb(0, 0, 0);
+  border: 1px black solid;
+  border-radius: 10px;
+  padding: 30px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
+.pic {
+  border: 2px rgb(254,235,167) solid ;
+  border-radius: 20px;
+}
+/* 
+.picDad {
+  border: 2px rgb(254,235,167) solid ;
+  border-radius: 20px;
+  background-color: #0C64E6;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  height: fit-content;
+} */
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

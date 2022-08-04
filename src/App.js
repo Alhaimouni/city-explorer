@@ -5,6 +5,10 @@ import SearchForm from './component/SearchForm';
 import Header from './component/Header';
 import DisplayedInfo from './component/DisplayedInfo';
 import Map from './component/Map';
+import './App.css';
+import Weather from './component/Weather';
+
+//============================================================================================================================//
 
 class App extends React.Component {
 
@@ -18,6 +22,8 @@ class App extends React.Component {
       imgSrc : '',
       showData : false,
       showErr:false,
+      weather : [],
+      showWeather : false,
     }
   }
 
@@ -30,6 +36,7 @@ class App extends React.Component {
       let responseFromIQ = await axios.get(requestUrl);
       let cityData = responseFromIQ.data[0];
       this.displayMap(cityData.lat,cityData.lon);
+      this.displayWeather(userInput,cityData.lat,cityData.lon)
       this.setState({
         cityName:cityData.display_name,
         latitude:cityData.lat,
@@ -56,21 +63,37 @@ class App extends React.Component {
   
   }
 
+  displayWeather = async (searchQuery,lat,lon) => {
+
+    try {
+      let serverData = await axios.get(`${process.env.REACT_APP_API}/weather?searchQuery=${searchQuery}&lat=${lat}&lon=${lon}`);
+      let weatherData = serverData.data;
+      this.setState({weather:weatherData , showWeather : true});
+    }catch(error) {
+      console.log(error);
+      this.setState({ showWeather : false});
+    }
+
+
+
+  }
+
   render() {
 
     return (
-      <>
+      < div className='App'>
         <Header/>
+        <br></br>
         <SearchForm display={this.displayLocation}/>
-        
         {this.state.showData &&
         <>
         <DisplayedInfo name={this.state.cityName} lat={this.state.latitude} lon={this.state.longitude} />
-        <Map source={this.state.imgSrc}/>
-        </>}
+        <Map  className='pic' source={this.state.imgSrc}/>
         
-        {this.state.showErr && <p>دخل قيمه زي العالم يا محترم</p>}
-      </>
+        </>}
+         { this.state.showWeather && <Weather weatherData={this.state.weather}/> }
+        {this.state.showErr && <p>Enter valid Value Please</p>}
+      </div>
     )
   }
 }

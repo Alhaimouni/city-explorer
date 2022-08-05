@@ -7,6 +7,7 @@ import DisplayedInfo from './component/DisplayedInfo';
 import Map from './component/Map';
 import './App.css';
 import Weather from './component/Weather';
+import Movie from './component/Movie';
 
 //============================================================================================================================//
 
@@ -24,6 +25,8 @@ class App extends React.Component {
       showErr:false,
       weather : [],
       showWeather : false,
+      movie : [],
+      showMovie : false,
     }
   }
 
@@ -37,6 +40,7 @@ class App extends React.Component {
       let cityData = responseFromIQ.data[0];
       this.displayMap(cityData.lat,cityData.lon);
       this.displayWeather(userInput,cityData.lat,cityData.lon)
+      this.displayMovie(userInput);
       this.setState({
         cityName:cityData.display_name,
         latitude:cityData.lat,
@@ -73,10 +77,23 @@ class App extends React.Component {
       console.log(error);
       this.setState({ showWeather : false});
     }
-
-
-
   }
+
+
+  displayMovie = async (searchQuery) =>{
+
+    try {
+      let Movie = await axios.get(`${process.env.REACT_APP_API}/movie?searchQuery=${searchQuery}`);
+      let  MovieData = Movie.data;
+      this.setState({movie : MovieData , showMovie : true});
+
+    }catch(error) {
+      console.log(error);
+      this.setState({ showMovie: false});
+    }
+  }
+
+
 
   render() {
 
@@ -91,7 +108,8 @@ class App extends React.Component {
         <Map  className='pic' source={this.state.imgSrc}/>
         
         </>}
-         { this.state.showWeather && <Weather weatherData={this.state.weather}/> }
+        { this.state.showWeather && <Weather weatherData={this.state.weather}/> }
+        { this.state.showMovie && <Movie movieData={this.state.movie}/>}
         {this.state.showErr && <p>Enter valid Value Please</p>}
       </div>
     )

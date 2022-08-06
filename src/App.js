@@ -38,6 +38,7 @@ class App extends React.Component {
     try {
       let responseFromIQ = await axios.get(requestUrl);
       let cityData = responseFromIQ.data[0];
+      console.log(cityData);
       this.displayMap(cityData.lat,cityData.lon);
       this.displayWeather(userInput,cityData.lat,cityData.lon)
       this.displayMovie(userInput);
